@@ -28,7 +28,7 @@ class Brush:
         dest_canvas.surface.blit(self.brush_img, ((pygame.mouse.get_pos()[0] - self.brush_img.get_width()//2) - dest_canvas.coords.x,(pygame.mouse.get_pos()[1] - self.brush_img.get_height()//2) - dest_canvas.coords.y))
 
     def surf_paint_at(self, coords:pygame.Vector2 or tuple[int, int], surface):
-        surface.blit(self.brush_img, coords)
+        surface.blit(self.brush_img, (coords[0]-self.brush_img.get_size()[0]//2,coords[1]-self.brush_img.get_size()[1]//2))
     
     def update_color(self, new_color):
 
