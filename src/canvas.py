@@ -7,7 +7,7 @@ from src.utils import *
 from src.button import Button
 class Canvas:
 
-    def __init__(self,canvas_size:tuple[int, int],real_size: tuple[int, int] = (1920,1080),coords:tuple[int,int] = (0,0)) -> None:
+    def __init__(self,canvas_size:tuple[int, int],real_size: tuple[int, int] = (1920, 1080),coords:tuple[int,int] = (0,0)) -> None:
         
         # Abbastanza self-explainatory sono una surface dove sta la vera immagine che avrà una risoluzione più alta,
         # Mentre la seconda serve solo a rappresentarla sullo schermo
@@ -63,11 +63,13 @@ class Canvas:
         # Proporzioni per ottenere quale debba essere la nuova dimensione della canvas
         
         
-        original_size = self.countourn_rect.size
+        original_size = self.real_surface.get_size()
         new_real_size = (
             ((self.real_surface.get_width()  * new_size[0])/ original_size[0]),
             ((self.real_surface.get_height() * new_size[1])/original_size[1])
+        
         )
+
         
         # Creo delle nuove surface e le rimpiazzo con quelle nuove
         new_surf = pygame.Surface(new_size, pygame.SRCALPHA, 32)
@@ -104,17 +106,19 @@ class Canvas:
     
     def update_on_painting(self, brush:Brush, is_painting:bool):
         
+        
         pos =   ( 
                     maprange(self.get_mouse_pos_on_canvas()[0], (0, self.surface.get_size()[0]), (0, self.real_surface.get_size()[0])),
                     maprange(self.get_mouse_pos_on_canvas()[1], (0, self.surface.get_size()[1]), (0, self.real_surface.get_size()[1]))
                 )
 
+        
+        
         if is_painting:
-            
             brush.surf_paint_at(pos,self.real_surface)
-
-            self.surface =  pygame.transform.scale(self.real_surface,self.surface.get_size())
-
+            
+            self.surface =  self.real_surface#pygame.transform.scale(self.real_surface,self.surface.get_size())
+            
            
 
     # Serve per cambiare la dimensione al drag dei bottoni.
